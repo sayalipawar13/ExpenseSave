@@ -3,6 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import CreateExpense from "./CreateExpense";
 import { GlobalContext } from "../../context/GlobalState";
 import ExpenseChart from "./ExpenseChart";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 function Dashboard() {
   const { expenses } = useContext(GlobalContext);
@@ -22,12 +24,20 @@ function Dashboard() {
 
   return (
     <div>
-      <Typography variant="h5">Dashboard </Typography>
+      <Typography variant="h4">Dashboard </Typography>
       <CreateExpense />
-      <h2>
-        {total} {income} {expense}
-      </h2>
-      <ExpenseChart />
+      <Typography variant="h5">
+        <ArrowUpwardIcon style={{ fontSize: 20, color: "green" }} />
+        {income}
+        <ArrowDownwardIcon
+          style={{ fontSize: 20, color: "red", marginLeft: "30px" }}
+        />
+        {expense}
+      </Typography>
+      <span style={{ fontSize: 20 }}>Income</span>
+      <span style={{ fontSize: 20, marginLeft: "40px" }}>Expense</span>
+
+      <ExpenseChart income={income} expense={expense} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ function ViewExpenses() {
     { title: "Type", field: "type" },
     { title: "Amount", field: "amount" },
     { title: "Category", field: "category" },
+    { title: "Date", field: "date" },
   ];
 
   return (

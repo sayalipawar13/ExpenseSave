@@ -69,7 +69,7 @@ function Sidebar() {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" className="textStyle" />
+          <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
       <Link to="/viewExpense">
@@ -77,7 +77,7 @@ function Sidebar() {
           <ListItemIcon>
             <ViewListIcon />
           </ListItemIcon>
-          <ListItemText primary="View Expense" className="textStyle" />
+          <ListItemText primary="View Expense" />
         </ListItem>
       </Link>
     </List>

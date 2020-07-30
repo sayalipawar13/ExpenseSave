@@ -12,9 +12,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import { GlobalContext } from "../../context/GlobalState";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: theme.spacing(6),
     right: theme.spacing(6),
   },
@@ -36,28 +36,43 @@ const useStyles = makeStyles((theme) => ({
 
 function CreateExpense() {
   const classes = useStyles();
-  // const [open, setOpen] = useState(false);
-  const { addExpenses } = useContext(GlobalContext);
 
-  function handleClickOpen() {
-    setExpense(() => {
-      return { open: !expense.open };
-    });
-  }
-
-  const [expense, setExpense] = useState({
+  const initialState = {
     open: false,
     expenditure: {
       type: "Expense",
       amount: 0,
+      date: null,
       category: "",
       desc: "",
     },
-  });
+    amtError: "",
+    categoryError: "",
+  };
+  // const [open, setOpen] = useState(false);
+  const { addExpenses } = useContext(GlobalContext);
+  
+  const [expense, setExpense] = useState(initialState);
+
+  function handleClickOpen() {
+    setExpense(() => {
+      return {
+        open: !expense.open,
+        expenditure: {
+          type: "Expense",
+          amount: 0,
+          date: null,
+          category: "",
+          desc: "",
+        },
+      };
+    });
+  }
+
 
   // const [list,listItem]=useState([]);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setExpense((prev) => {
       return {
@@ -67,33 +82,58 @@ function CreateExpense() {
     });
   };
 
-  const handleSubmits = (e) => {
+  const validate = () => {
+    const { type, amount } = expense.expenditure;
+    let amtError = "";
+    let categoryError = "";
+
+    if (!category) categoryError = "Category is required.";
+
+    if (!amount) amtError = "Amount is required.";
+    else if (amount <= 0) amtError = "Amount must be greater than 0.";
+
+    if (amtError || categoryError) {
+      setExpense({
+        open: true,
+        expenditure: {
+          type,
+          amount,
+          date,
+          category,
+          desc,
+        },
+        amtError,
+        categoryError,
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     // listItem((pre)=>{
     //   return [...pre,expense]
     // });
-    expense.expenditure.amount = expense.expenditure.amount * 1;
-    addExpenses(expense.expenditure);
+    const isValid = validate();
+    const { open, expenditure, amtError, categoryError } = expense;
 
-    //resetting the values
-    setExpense({
-      return: {
-        open: false,
-        expenditure: {
-          type: "Expense",
-          amount: 0,
-          category: "",
-          desc: "",
-        },
-      },
-    });
+    if (isValid) {
+      expenditure.amount = expenditure.amount * 1;
+
+      addExpenses(expenditure);
+
+      //resetting the values
+      setExpense(initialState);
+    }
   };
-  const { open } = expense;
-  const { type } = expense.expenditure || "Expense";
-  const { amount } = expense.expenditure || 0;
-  const { category } = expense.expenditure || "";
-  const { desc } = expense.expenditure || "";
-  // console.log(typeof(expense.amount));
+  const {
+    open,
+    expenditure: { type, amount, date, category, desc },
+    amtError,
+    categoryError,
+  } = expense;
+
 
   return (
     <div className={classes.root}>
@@ -114,7 +154,7 @@ function CreateExpense() {
         >
           <DialogTitle>Create Expense</DialogTitle>
           <DialogContent>
-            <form>
+            <form autoComplete="off">
               <FormControl
                 fullWidth
                 variant="outlined"
@@ -125,7 +165,7 @@ function CreateExpense() {
                 </InputLabel>
                 <Select
                   name="type"
-                  onChange={handleSubmit}
+                  onChange={handleChange}
                   value={type ? type : ""}
                   label="Enter Type"
                   color="secondary"
@@ -134,38 +174,64 @@ function CreateExpense() {
                   <MenuItem value="Expense">Expense</MenuItem>
                 </Select>
               </FormControl>
-
+              <FormControl
+                fullWidth
+                className={classes.textFieldStyle}
+                variant="outlined"
+                error={true ? amtError : null}
+              >
+                <InputLabel color="secondary">Enter Amount</InputLabel>
+                <OutlinedInput
+                  // margin="dense"
+                  name="amount"
+                  type="number"
+                  onChange={handleChange}
+                  value={amount ? amount : ""}
+                  label="Enter Amount"
+                  color="secondary"
+                />
+                <FormHelperText style={{ fontSize: "15px" }}>
+                  {amtError}
+                </FormHelperText>
+              </FormControl>
               <TextField
                 margin="dense"
-                name="amount"
-                type="number"
-                onChange={handleSubmit}
-                value={amount ? amount : ""}
-                label="Enter Amount"
+                name="date"
+                type="date"
+                onChange={handleChange}
+                value={date ? date : ""}
                 variant="outlined"
                 color="secondary"
                 fullWidth
                 className={classes.textFieldStyle}
               />
 
-              <TextField
-                margin="dense"
-                name="category"
-                type="string"
-                onChange={handleSubmit}
-                value={category ? category : ""}
-                label="Enter category"
-                variant="outlined"
-                color="secondary"
+              <FormControl
                 fullWidth
                 className={classes.textFieldStyle}
-              />
-
+                variant="outlined"
+                error={true ? categoryError : null}
+              >
+                <InputLabel color="secondary">Enter Category</InputLabel>
+                <OutlinedInput
+                  name="category"
+                  type="string"
+                  onChange={handleChange}
+                  value={category ? category : ""}
+                  label="Enter category"
+                  color="secondary"
+                />
+                <FormHelperText style={{ fontSize: "15px" }}>
+                  {categoryError || `Eg. Salary,Lunch,Shopping`}
+                </FormHelperText>
+              </FormControl>
               <TextField
                 margin="dense"
                 name="desc"
                 type="string"
-                onChange={handleSubmit}
+                onChange={handleChange}
+                multiline
+                rowsMax={4}
                 value={desc ? desc : ""}
                 label="Add note"
                 variant="outlined"
@@ -178,9 +244,9 @@ function CreateExpense() {
           <DialogActions>
             <Button
               type="submit"
-              onClick={handleSubmits}
               variant="contained"
               color="secondary"
+              onClick={handleSubmit}
             >
               Submit
             </Button>

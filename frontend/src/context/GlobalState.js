@@ -3,8 +3,8 @@ import AppReducer from "./AppReducer";
 
 const initialState = {
   expenses: [
-    { type: "Expense", amount: 1500, category: "Salary", desc: "" },
-    { type: "Income", amount: 150, category: "Salary", desc: "" },
+    { type: "Expense", amount: 1500, date: null, category: "Salary", desc: "" },
+    { type: "Income", amount: 150, date: null, category: "Salary", desc: "" },
   ],
 };
 
