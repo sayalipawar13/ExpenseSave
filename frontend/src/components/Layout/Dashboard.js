@@ -28,14 +28,14 @@ function Dashboard() {
       <CreateExpense />
       <Typography variant="h5">
         <ArrowUpwardIcon style={{ fontSize: 20, color: "green" }} />
-        {income}
+        ₹{income}
         <ArrowDownwardIcon
-          style={{ fontSize: 20, color: "red", marginLeft: "30px" }}
+          style={{ fontSize: 20, color: "red", marginLeft: "50px" }}
         />
-        {expense}
+        ₹{expense}
       </Typography>
       <span style={{ fontSize: 20 }}>Income</span>
-      <span style={{ fontSize: 20, marginLeft: "40px" }}>Expense</span>
+      <span style={{ fontSize: 20, marginLeft: "60px" }}>Expense</span>
 
       <ExpenseChart income={income} expense={expense} />
     </div>

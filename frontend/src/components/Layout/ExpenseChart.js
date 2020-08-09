@@ -98,13 +98,14 @@ export default function ExpenseChart(props) {
         </Typography>
 
         <Doughnut data={data} options={options} />
+        {props.income == 0 ? <Typography variant="h5" className="textStyles">No records</Typography> :
         <Typography variant="h5" className="textStyles">
           {props.income > props.expense ? (
-            <span className="income">You saved ${total}.Well Done</span>
+            <span className="income">You saved ₹{total}.Well Done</span>
           ) : (
             <span className="expense">Your expenses are more</span>
           )}
-        </Typography>
+        </Typography>}
       </Paper>
 
       <Paper elevation={3} className="paper">

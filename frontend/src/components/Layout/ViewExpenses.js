@@ -4,7 +4,7 @@ import MaterialTable from "material-table";
 import { GlobalContext } from "../../context/GlobalState";
 
 function ViewExpenses() {
-  const { expenses } = useContext(GlobalContext);
+  const { expenses,deleteExpenses } = useContext(GlobalContext);
   console.log(expenses);
 
   const columns = [
@@ -26,6 +26,15 @@ function ViewExpenses() {
           exportButton: true,
           showTitle: false,
         }}
+        actions={[
+          {
+              icon: 'delete',
+              tooltip: 'Delete Entry',
+              onClick: () => {
+                  deleteExpenses(expenses[0]);
+              }
+          }
+      ]}
       />
     </div>
   );

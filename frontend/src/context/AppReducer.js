@@ -5,6 +5,11 @@ export default (state, action) => {
         ...state,
         expenses: [action.payload, ...state.expenses],
       };
+      case "DELETE_TRANSACTION":
+      return {
+        ...state,
+        expenses: state.expenses.filter(expense => expense!==action.payload),
+      };
     default:
       return state;
   }

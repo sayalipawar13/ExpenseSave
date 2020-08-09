@@ -20,11 +20,19 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function deleteExpenses(expense) {
+    dispatch({
+      type: "DELETE_TRANSACTION",
+      payload: expense,
+    });
+  }
+
   return (
     <GlobalContext.Provider
       value={{
         expenses: state.expenses,
         addExpenses,
+        deleteExpenses
       }}
     >
       {children}
