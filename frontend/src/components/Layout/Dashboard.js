@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import CreateExpense from "./CreateExpense";
 import { GlobalContext } from "../../context/GlobalState";
 import ExpenseChart from "./ExpenseChart";
@@ -26,17 +27,23 @@ function Dashboard() {
     <div>
       <Typography variant="h4">Dashboard </Typography>
       <CreateExpense />
-      <Typography variant="h5">
-        <ArrowUpwardIcon style={{ fontSize: 20, color: "green" }} />
-        ₹{income}
-        <ArrowDownwardIcon
-          style={{ fontSize: 20, color: "red", marginLeft: "50px" }}
-        />
-        ₹{expense}
-      </Typography>
-      <span style={{ fontSize: 20 }}>Income</span>
-      <span style={{ fontSize: 20, marginLeft: "60px" }}>Expense</span>
-
+      <Grid container>
+        <Grid item xs={3}>
+          <Typography variant="h5">
+            <ArrowUpwardIcon style={{ fontSize: 20, color: "green" }} />₹
+            {income}
+          </Typography>
+          <span style={{ fontSize: 20 }}>Income</span>
+        </Grid>
+        
+        <Grid item xs={3}>
+          <Typography variant="h5">
+            <ArrowDownwardIcon style={{ fontSize: 20, color: "red" }} />₹
+            {expense}
+          </Typography>
+          <span style={{ fontSize: 20 }}>Expense</span>
+        </Grid>
+      </Grid>
       <ExpenseChart income={income} expense={expense} />
     </div>
   );

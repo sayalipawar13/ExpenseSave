@@ -1,38 +1,80 @@
 import React, { createContext, useReducer } from "react";
 import AppReducer from "./AppReducer";
+import axios from "axios";
 
 const initialState = {
-  expenses: [
-    { type: "Expense", amount: 1500, date: null, category: "Salary", desc: "" },
-    { type: "Income", amount: 150, date: null, category: "Salary", desc: "" },
-  ],
+  expenses: [],
+  loading:true
 };
 
 export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+
   //Actions
-  function addExpenses(expense) {
-    dispatch({
-      type: "ADD_TRANSACTION",
-      payload: expense,
-    });
+  async function getExpenses(){
+    try {
+      const res = await axios.get("/api/expenses/expenseList");
+      dispatch({
+        type:"GET_EXPENSES",
+        payload:res.data.data
+      })
+      // console.log(res.data.data);
+    } catch (err) {
+      dispatch({
+        type:"EXPENSE_ERROR",
+        payload:err.response.data.error
+      })
+    }
   }
 
-  function deleteExpenses(expense) {
+  async function addExpenses(expense) {
+    const config={
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }
+    try {     
+      const res = await axios.post("/api/expenses/createExpense",expense,config);
+
     dispatch({
-      type: "DELETE_TRANSACTION",
-      payload: expense,
+      type: "ADD_EXPENSE",
+      payload: res.data.data,
     });
+    } catch (err) {
+      dispatch({
+        type:"EXPENSE_ERROR",
+        payload:err.response.data.error
+      })
+    }
+    
+  }
+
+  async function deleteExpenses(id) {
+    try {
+      await axios.delete(`/api/expenses/delete/${id}`);
+    dispatch({
+      type: "DELETE_EXPENSE",
+      payload: id,
+    });
+    } catch (err) {
+      dispatch({
+        type:"EXPENSE_ERROR",
+        payload:err.response.data.error
+      })
+    }
+    
   }
 
   return (
     <GlobalContext.Provider
       value={{
         expenses: state.expenses,
+        loading:state.loading,
+        getExpenses,
         addExpenses,
-        deleteExpenses
+        deleteExpenses,
       }}
     >
       {children}

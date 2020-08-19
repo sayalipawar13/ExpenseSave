@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { Doughnut, Pie } from "react-chartjs-2";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -6,8 +6,7 @@ import { GlobalContext } from "../../context/GlobalState";
 import "../../styles/expenseChart.scss";
 
 export default function ExpenseChart(props) {
-  //   displayName: 'DoughnutExample';
-  const { expenses } = useContext(GlobalContext);
+  const { expenses,getExpenses } = useContext(GlobalContext);
   // const income = expenses
   //   .filter((expense) => expense.type === "Income")
   //   .map((expense) => expense.amount)
@@ -18,7 +17,7 @@ export default function ExpenseChart(props) {
   //   .map((expense) => expense.amount)
   //   .reduce((acc, item) => (acc += item), 0);
 
-  console.log(props);
+  // console.log(props);
   const total = props.income - props.expense;
 
   const expenseDetail = expenses
@@ -62,7 +61,7 @@ export default function ExpenseChart(props) {
     ];
     let colors = [];
 
-    for (let i = 0; i < length; i++) {
+    for (let i = length; i >=0 ; i--) {
       colors.push(pallet[i % pallet.length]);
     }
 
@@ -89,6 +88,9 @@ export default function ExpenseChart(props) {
       // display:false
     },
   };
+  useEffect(()=>{
+    getExpenses();
+  },[]);
 
   return (
     <div className="root">
@@ -98,7 +100,7 @@ export default function ExpenseChart(props) {
         </Typography>
 
         <Doughnut data={data} options={options} />
-        {props.income == 0 ? <Typography variant="h5" className="textStyles">No records</Typography> :
+        {props.income == 0 && props.expense==0 ? <Typography variant="h5" className="textStyles">No records</Typography> :
         <Typography variant="h5" className="textStyles">
           {props.income > props.expense ? (
             <span className="income">You saved ₹{total}.Well Done</span>

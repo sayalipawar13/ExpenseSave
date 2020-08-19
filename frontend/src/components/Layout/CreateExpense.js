@@ -15,6 +15,7 @@ import Select from "@material-ui/core/Select";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { GlobalContext } from "../../context/GlobalState";
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +43,7 @@ function CreateExpense() {
     expenditure: {
       type: "Expense",
       amount: 0,
-      date: null,
+      date:moment(),
       category: "",
       desc: "",
     },
@@ -61,7 +62,7 @@ function CreateExpense() {
         expenditure: {
           type: "Expense",
           amount: 0,
-          date: null,
+          date: moment(),
           category: "",
           desc: "",
         },
@@ -199,7 +200,7 @@ function CreateExpense() {
                 name="date"
                 type="date"
                 onChange={handleChange}
-                value={date ? date : ""}
+                value={date ? date: moment()}
                 variant="outlined"
                 color="secondary"
                 fullWidth

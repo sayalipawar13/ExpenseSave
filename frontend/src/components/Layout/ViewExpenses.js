@@ -1,11 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import MaterialTable from "material-table";
+import moment from "moment";
 import { GlobalContext } from "../../context/GlobalState";
 
 function ViewExpenses() {
-  const { expenses,deleteExpenses } = useContext(GlobalContext);
-  console.log(expenses);
+  let { expenses,deleteExpenses,getExpenses} = useContext(GlobalContext);
+  expenses = expenses.map(expense => {
+    expense = {...expense}
+    expense.date = moment(expense.date).format('DD-MM-YYYY');
+    return expense;
+});
+console.log(expenses);
+
+  useEffect(()=>{
+    getExpenses();
+  },[]);
 
   const columns = [
     { title: "Type", field: "type" },
@@ -30,11 +40,12 @@ function ViewExpenses() {
           {
               icon: 'delete',
               tooltip: 'Delete Entry',
-              onClick: () => {
-                  deleteExpenses(expenses[0]);
+              onClick: (event,data) => {
+                  deleteExpenses(data._id);
               }
           }
-      ]}
+      ]
+    }
       />
     </div>
   );

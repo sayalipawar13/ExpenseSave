@@ -13,7 +13,7 @@ const theme = createMuiTheme({
     // secondary:{
     //   main:"#263238"
     // },
-    //  type: 'dark',
+     type: 'dark',
   },
 });
 
