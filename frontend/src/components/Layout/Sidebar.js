@@ -1,10 +1,12 @@
-import React from "react";
+import React,{useState} from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ViewListIcon from "@material-ui/icons/ViewList";
+import LightIcon from "@material-ui/icons/Brightness4";
+import DarkIcon from "@material-ui/icons/Brightness7";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -53,14 +55,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Sidebar() {
+function Sidebar(props) {
   const classes = useStyles();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
+  const handleThemeChange = () => {
+    setDarkMode(!darkMode);
+  };
+  props.darkMode(darkMode);
 
   const drawerListItems = (
     <List>
@@ -80,6 +87,10 @@ function Sidebar() {
           <ListItemText primary="View Expense" />
         </ListItem>
       </Link>
+      <ListItem className="buttonS" onClick={handleThemeChange}>
+        <ListItemIcon>{darkMode ? <DarkIcon /> : <LightIcon />}</ListItemIcon>
+        <ListItemText>{darkMode ? "Light Mode" : "Dark Mode"}</ListItemText>
+      </ListItem>
     </List>
   );
   return (

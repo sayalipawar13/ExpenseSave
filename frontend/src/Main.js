@@ -23,13 +23,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Main() {
+function Main(props) {
   const classes = useStyles();
 
+  const darkModeFunction=(darkMode)=>{
+    props.darkMode(darkMode);
+  }
+  
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        <Sidebar />
+        <Sidebar darkMode={darkModeFunction} />
         <div className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
