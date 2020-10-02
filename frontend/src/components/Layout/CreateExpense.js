@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import Tooltip from '@material-ui/core/Tooltip';
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,7 +16,7 @@ import Select from "@material-ui/core/Select";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { GlobalContext } from "../../context/GlobalState";
-import moment from 'moment';
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     position: "fixed",
+    right: theme.spacing(5),
     bottom: theme.spacing(6),
-    right: theme.spacing(6),
   },
   textFieldStyle: {
     paddingBottom: theme.spacing(2),
@@ -43,7 +44,7 @@ function CreateExpense() {
     expenditure: {
       type: "Expense",
       amount: 0,
-      date:moment(),
+      date: moment(),
       category: "",
       desc: "",
     },
@@ -52,7 +53,7 @@ function CreateExpense() {
   };
   // const [open, setOpen] = useState(false);
   const { addExpenses } = useContext(GlobalContext);
-  
+
   const [expense, setExpense] = useState(initialState);
 
   function handleClickOpen() {
@@ -69,7 +70,6 @@ function CreateExpense() {
       };
     });
   }
-
 
   // const [list,listItem]=useState([]);
 
@@ -135,18 +135,16 @@ function CreateExpense() {
     categoryError,
   } = expense;
 
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
+      <Tooltip title="Add Expense" >
         <Fab
           color="secondary"
           className={classes.fab}
-          onClick={handleClickOpen}
-        >
+          onClick={handleClickOpen} >
           <AddIcon />
-        </Fab>
-
+        </Fab></Tooltip>
         <Dialog
           open={open ? open : false}
           onClose={handleClickOpen}
@@ -200,7 +198,7 @@ function CreateExpense() {
                 name="date"
                 type="date"
                 onChange={handleChange}
-                value={date ? date: moment()}
+                value={date ? date : moment()}
                 variant="outlined"
                 color="secondary"
                 fullWidth

@@ -22,6 +22,8 @@ console.log(expenses);
     { title: "Amount", field: "amount" },
     { title: "Category", field: "category" },
     { title: "Date", field: "date" },
+    { title: "Description", field: "desc" },
+
   ];
 
   return (
