@@ -7,17 +7,7 @@ import "../../styles/expenseChart.scss";
 
 export default function ExpenseChart(props) {
   const { expenses,getExpenses } = useContext(GlobalContext);
-  // const income = expenses
-  //   .filter((expense) => expense.type === "Income")
-  //   .map((expense) => expense.amount)
-  //   .reduce((acc, item) => (acc += item), 0);
 
-  // const expense = expenses
-  //   .filter((expense) => expense.type === "Expense")
-  //   .map((expense) => expense.amount)
-  //   .reduce((acc, item) => (acc += item), 0);
-
-  // console.log(props);
   const total = props.income - props.expense;
 
   const expenseDetail = expenses
@@ -26,9 +16,24 @@ export default function ExpenseChart(props) {
     .map((expense) => {
       return { amt: expense.amount, category: expense.category };
     });
-
+    var dict={};
+    expenseDetail.forEach(
+      function(item){
+        var x=item.category;
+        var y=item.amt;
+        if(x in dict){
+          dict[x] = dict[x]+y;
+       }
+       else{
+        dict[x] = y;
+       }
+        
+      }
+    )
+    console.log(dict);
   const expenseAmount = expenseDetail.map((item) => item.amt);
-  const expenseCategory = expenseDetail.map((item) => item.category);
+  // var expenseCategory = expenseDetail.map((item) => item.category);
+  const expenseCategory =Object.keys(dict)
 
   const data = {
     labels: ["Income", "Expense"],
@@ -68,12 +73,12 @@ export default function ExpenseChart(props) {
     return colors;
   }
   const expenseData = {
-    labels: expenseCategory,
+    labels:expenseCategory ,
     datasets: [
       {
-        data: expenseAmount,
-        backgroundColor: getColors(expenseAmount.length),
-        hoverBackgroundColor: getColors(expenseAmount.length),
+        data: Object.values(dict),
+        backgroundColor: getColors(expenseCategory.length),
+        hoverBackgroundColor: getColors(expenseCategory.length),
         borderWidth: 0,
       },
     ],
@@ -103,7 +108,7 @@ export default function ExpenseChart(props) {
         {props.income == 0 && props.expense==0 ? <Typography variant="h5" className="textStyles">No records</Typography> :
         <Typography variant="h5" className="textStyles">
           {props.income > props.expense ? (
-            <span className="income">You saved ₹{total}.Well Done</span>
+            <span className="income">You saved ₹{total.toFixed(2)}.Well Done</span>
           ) : (
             <span className="expense">Your expenses are more</span>
           )}
