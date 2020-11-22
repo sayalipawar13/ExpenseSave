@@ -12,6 +12,7 @@ import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
 import FormData from "form-data";
 import moment from "moment";
+import ErrorDialog from './ErrorDialog';
 
 var num;
 const useStyles = makeStyles((theme) => ({
@@ -37,13 +38,14 @@ function Upload() {
   const initialState = {
     open: false,
     file: null,
-    error:"",
+    fileError:"",
     expenditure: {
       type: "Expense",
       amount: 0,
       date: moment(),
       category: "Receipt",
       desc: "",
+      error:""
     },
   };
   // const [open, setOpen] = useState(false);
@@ -56,20 +58,43 @@ function Upload() {
       return {
         open: !expense.open,
         file: null,
-        error:"",
+        fileError:"",
         expenditure: {
           type: "Expense",
           amount: num,
           date: moment(),
           category: "",
           desc: "",
+          error:""
         },
         
       };
     });
   }
+
+  const validate=()=>{
+    const {file,fileError}=expense;
+    if(file===null){
+      setExpense({
+        open: true,
+        fileError:"Please Upload a file",
+        expenditure: {
+          type,
+          amount,
+          date,
+          category,
+          desc,
+        },
+      });
+    return false;
+    }
+    return true;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const isValid=validate();
+    if(isValid){
     var data = new FormData();
     data.append("language", "eng");
     data.append("file", expense.file);
@@ -86,11 +111,13 @@ function Upload() {
     axios(config)
       .then((response) => {
         var patt = /(Total+(\d+)+(\.\d+)|Total+(\d+)|Total+\$+(\d+)+(\.\d+)|Amt+\$+(\d+)+(\.\d+)|Amt+(\d+)+(\.\d+)|Total+\$+(\d+)+(\,\d+))/gim;
-        // console.log(this.state.result);
+        // console.log(response.data.ParsedResults[0]);
         var resData = response.data.ParsedResults[0].ParsedText.replace(/\s/gim, "");
-        var result = resData.match(patt).slice(-1).toString();
+        var result = resData.match(patt).slice(-1).toString();   //returns the last part of the array and converts to string
         var split_string = result.split(/(\d+)/);
+        // console.log(split_string);
         var extractNo = split_string.slice(1, split_string.length);
+        // console.log(extractNo);
         num = extractNo.join("");
         expense.expenditure.amount = Number(num);
         setExpense({
@@ -102,6 +129,7 @@ function Upload() {
             date: moment(),
             category: "Receipt",
             desc: "",
+            error:""
           },
         });
 
@@ -113,15 +141,24 @@ function Upload() {
         setExpense(initialState);
       })
 
-      .catch(function (error) {
-          setExpense({open:false,error:"Something went wrong or could not extract the data"})
-        console.log(error);
+      .catch((err)=> {
+        setExpense({
+          open:true,
+          expenditure:{
+            error:"Something went wrong, could not extract the data.Please upload a valid file."
+          }
+          
+        })
       });
+    }
+ 
   };
   const {
     open,
-    expenditure: { type, amount, date, category, desc },
+    fileError,
+    expenditure: { type, amount, date, category, desc,error},
   } = expense;
+  console.log();
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -163,6 +200,7 @@ function Upload() {
               />
             </form>
           </DialogContent>
+              <div style={{paddingLeft:"15px",color:"red"}}>{fileError || error}</div>
           <DialogActions>
             <Button
               type="submit"

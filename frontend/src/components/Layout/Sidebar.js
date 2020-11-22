@@ -18,6 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import "../../styles/sidebar.scss";
 import Dashboard from "./Dashboard";
+import Login from "./Login";
 
 const drawerWidth = 240;
 

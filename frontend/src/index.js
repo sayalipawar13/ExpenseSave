@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { GlobalProvider,GlobalContext } from "./context/GlobalState";
+
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.Fragment>
+    <GlobalProvider>
     <App />
+    </GlobalProvider>
   </React.Fragment>,
   document.getElementById('root')
 );

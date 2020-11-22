@@ -1,0 +1,28 @@
+.root {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.paper {
+  height: 60vh;
+  width: 78vh;
+  margin: 20px 20px 0 0;
+}
+
+.textStyles {
+  padding: 20px;
+}
+
+.income {
+  color: green;
+}
+
+.expense {
+  color: red;
+}

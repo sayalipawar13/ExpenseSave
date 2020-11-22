@@ -1,0 +1,11 @@
+ul a {
+  text-decoration: none;
+}
+
+ul span {
+  color: grey;
+}
+
+.buttonS {
+  cursor: pointer;
+}

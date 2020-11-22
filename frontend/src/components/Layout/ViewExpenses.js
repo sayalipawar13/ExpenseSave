@@ -11,7 +11,7 @@ function ViewExpenses() {
     expense.date = moment(expense.date).format('DD-MM-YYYY');
     return expense;
 });
-console.log(expenses);
+// console.log(expenses);
 
   useEffect(()=>{
     getExpenses();

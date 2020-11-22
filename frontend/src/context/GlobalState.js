@@ -1,11 +1,20 @@
 import React, { createContext, useReducer } from "react";
-import AppReducer from "./AppReducer";
+import {ExpenseReducer,AuthReducer} from "./AppReducer";
 import axios from "axios";
+import combineReducers from "react-combine-reducers";
 
-const initialState = {
+const initialStateExpense = {
   expenses: [],
-  loading:true
+  loading:true,
+  error:null
 };
+
+const initialStateUser = null
+
+const [AppReducer,initialState]=combineReducers({
+  expenses:[ExpenseReducer,initialStateExpense],  
+  user:[AuthReducer,initialStateUser]
+})
 
 export const GlobalContext = createContext(initialState);
 
@@ -47,6 +56,8 @@ export const GlobalProvider = ({ children }) => {
         type:"EXPENSE_ERROR",
         payload:err.response.data.error
       })
+      console.log(err);
+
     }
     
   }
@@ -67,14 +78,29 @@ export const GlobalProvider = ({ children }) => {
     
   }
 
+  async function fetchUser(){
+try {
+  const res=await axios.get('/auth/user');
+  //console.log(res);
+  dispatch({
+    type:"GET_USER",
+    payload:res.data
+  })
+} catch (error) {
+  console.log(error);
+}
+  }
   return (
     <GlobalContext.Provider
       value={{
-        expenses: state.expenses,
-        loading:state.loading,
+        expenses: state.expenses.expenses,
+        loading:state.expenses.loading,
+        error:state.expenses.error,
+        user:state.user,
         getExpenses,
         addExpenses,
         deleteExpenses,
+        fetchUser
       }}
     >
       {children}
