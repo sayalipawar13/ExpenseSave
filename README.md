@@ -48,3 +48,11 @@ npm run server
 ```
 npm run frontend
 ```
+
+### In Action 🤩
+![ExpenseSave Apllication Demo](Videos&Images/ExpenseSave(video).gif)
+
+
+The receipt that i have uploaded in the above video is -
+
+![Receipt_image](Videos&Images/paymentReceipt2.jpg)
