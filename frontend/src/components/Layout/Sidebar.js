@@ -107,7 +107,7 @@ function Sidebar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" noWrap>
-            Expense Save
+            ExpenseSave
           </Typography>
         </Toolbar>
       </AppBar>
