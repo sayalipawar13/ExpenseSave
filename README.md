@@ -14,7 +14,7 @@ Users can then visualize the data using pie charts in the front end.
 
 ##### 1)Create a _config.env_ file inside the config folder.
 
-##### 2)Add Required Environment Variables:
+##### 2)Add Required Environment Variables into this _config.env_ file as:
 
   MONGO_URI : Url to connect with MongoDB
 
