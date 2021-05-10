@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
+import {GlobalContext} from '../../context/GlobalState';
 
 function Login(){
 return(
@@ -10,7 +11,9 @@ return(
 <Typography variant="h4" >
     ExpenseSave</Typography>
 <br/>
-<div><Button variant='contained' color='secondary' href='http://localhost:5000/auth/google'>Sign in with google</Button></div>
+<div><Button variant='contained' color='secondary' 
+href='http://localhost:5000/auth/google'
+>Sign in with google</Button></div>
 </div>
 
 )

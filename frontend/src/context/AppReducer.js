@@ -1,11 +1,24 @@
 export const ExpenseReducer = (state, action) => {
   switch (action.type) {
+    case "GET_USER":
+      return{
+        ...state,
+        expenses:[...state.expenses],
+        loading:false,
+        error:null,
+        user:{
+          loggedIn:true,
+          username:action.payload
+
+        }
+      }
     case "GET_EXPENSES":
       return {
         ...state,
         expenses: action.payload,
         loading: false,
         error:null
+        
       };
     case "ADD_EXPENSE":
       return {
@@ -37,11 +50,11 @@ export const ExpenseReducer = (state, action) => {
 };
 
 
-export const AuthReducer = (state=null,action) =>{
-  switch(action.type){
-    case "GET_USER":
-      return action.payload || false
-    default:
-      return state
-  }
-}
+// export const AuthReducer = (state=null,action) =>{
+//   switch(action.type){
+//     case "GET_USER":
+//       return action.payload || false
+//     default:
+//       return state
+//   }
+// }

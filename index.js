@@ -1,10 +1,11 @@
 const express= require('express');
 const dotenv=require('dotenv');
-const bodyParser = require('body-parser');
-const cookieSession=require('cookie-session');
 const passport=require('passport');
+const session=require('express-session');
 const cors=require('cors');
 const connectDB = require('./config/db')
+const GoogleStrategy = require('passport-google-oauth20');
+
 
 dotenv.config({path:'./config/config.env'});
 
@@ -17,22 +18,24 @@ const expenses=require('./routes/expense');
 
 const app=express();
 
+app.use(express.json());
+
 app.use(cors());
 
-app.use(cookieSession({
-    maxAge:12*60*60*1000,
-    keys:[process.env.cookieKey]
+app.use(session({
+    secret:process.env.secret,
+    resave:true,
+    saveUninitialized:true,
 }));
 
 //initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/auth',auth);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.json());
 
 app.use('/api/expenses',expenses);
 

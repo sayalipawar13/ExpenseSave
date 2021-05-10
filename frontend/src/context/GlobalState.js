@@ -1,25 +1,28 @@
 import React, { createContext, useReducer } from "react";
-import {ExpenseReducer,AuthReducer} from "./AppReducer";
+import {ExpenseReducer} from "./AppReducer";
 import axios from "axios";
 import combineReducers from "react-combine-reducers";
 
 const initialStateExpense = {
   expenses: [],
   loading:true,
-  error:null
+  error:null,
+  user:{
+    loggedIn:false,
+    username:''
+  }
 };
 
 const initialStateUser = null
 
-const [AppReducer,initialState]=combineReducers({
-  expenses:[ExpenseReducer,initialStateExpense],  
-  user:[AuthReducer,initialStateUser]
-})
+// const [AppReducer,initialState]=combineReducers({
+//   expenses:[ExpenseReducer,initialStateExpense],  
+// })
 
-export const GlobalContext = createContext(initialState);
+export const GlobalContext = createContext(initialStateExpense);
 
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [state, dispatch] = useReducer(ExpenseReducer, initialStateExpense);
 
   //Actions
   async function getExpenses(){
@@ -29,7 +32,6 @@ export const GlobalProvider = ({ children }) => {
         type:"GET_EXPENSES",
         payload:res.data.data
       })
-      // console.log(res.data.data);
     } catch (err) {
       dispatch({
         type:"EXPENSE_ERROR",
@@ -78,14 +80,17 @@ export const GlobalProvider = ({ children }) => {
     
   }
 
-  async function fetchUser(){
+  async function getUser(){
 try {
   const res=await axios.get('/auth/user');
-  //console.log(res);
-  dispatch({
-    type:"GET_USER",
-    payload:res.data
-  })
+  // console.log(res.data.username);
+  if(res.data){
+    dispatch({
+      type:"GET_USER",
+      payload:res.data.username
+    })
+  }
+  
 } catch (error) {
   console.log(error);
 }
@@ -93,14 +98,15 @@ try {
   return (
     <GlobalContext.Provider
       value={{
-        expenses: state.expenses.expenses,
-        loading:state.expenses.loading,
-        error:state.expenses.error,
+        expenses: state.expenses,
+        loading:state.loading,
+        error:state.error,
         user:state.user,
+        state,
         getExpenses,
         addExpenses,
         deleteExpenses,
-        fetchUser
+        getUser
       }}
     >
       {children}

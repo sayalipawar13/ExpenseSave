@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Main(props) {
   const classes = useStyles();
-const {user,fetchUser}=useContext(GlobalContext);
+const {user,expenses,getUser}=useContext(GlobalContext);
   const darkModeFunction=(darkMode)=>{
     props.darkMode(darkMode);
   }
 // console.log(user.data);
-  useEffect(()=>{
-    fetchUser();
-  },[]);
+  // useEffect(()=>{
+  //   getUser();
+  // },[]);
 
   // const Check=()=>{
   //   switch(user){
@@ -45,16 +45,18 @@ const {user,fetchUser}=useContext(GlobalContext);
 
   //   }
   // }
+  console.log(expenses);
 
   return (
     <div className={classes.root}>
       <BrowserRouter>
-    {user===false || user===null ? null : <Sidebar darkMode={darkModeFunction} />} 
-    {/* <Sidebar darkMode={darkModeFunction} /> */}
+    {user.loggedIn ? <Sidebar darkMode={darkModeFunction} /> :null} 
 
+    {/* <Sidebar darkMode={darkModeFunction} /> */}
+      
         <div className={classes.content}>
           <div className={classes.toolbar} />
-          {user==null || user==false ? null : 
+          {user.loggedIn ? 
           <Switch>
       
           <Route path="/" exact>
@@ -66,8 +68,8 @@ const {user,fetchUser}=useContext(GlobalContext);
 
           <Redirect to="/" />
          
-        </Switch>
-          }
+        </Switch> :null
+}
           
           </div>
       </BrowserRouter>

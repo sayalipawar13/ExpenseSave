@@ -8,7 +8,7 @@ import Login from './components/Layout/Login';
 
 function App() {
   const [DarkMode, setDarkMode] = useState(false);
-const {user,fetchUser}=useContext(GlobalContext);
+const {user,getUser,getExpenses,expenses,state}=useContext(GlobalContext);
   var typeP;
   function darkModeFunc(darkMode) {
     setDarkMode(darkMode);
@@ -28,13 +28,15 @@ const {user,fetchUser}=useContext(GlobalContext);
     },
   });
   useEffect(()=>{
-    fetchUser();
+    getUser();
+    getExpenses();
   },[]);
+  console.log(expenses,user);
   return (
       <ThemeProvider theme={Theme}>
         <CssBaseline />
         <div className="App">
-          {user==false ? <Login />:<Main darkMode={darkModeFunc} />}
+          {user.loggedIn ? <Main darkMode={darkModeFunc} />:<Login />}
           
         </div>
       </ThemeProvider>
