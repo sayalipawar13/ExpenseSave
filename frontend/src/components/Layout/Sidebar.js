@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useContext, useState} from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -7,6 +7,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import LightIcon from "@material-ui/icons/Brightness4";
 import DarkIcon from "@material-ui/icons/Brightness7";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -19,6 +20,7 @@ import { Link } from "react-router-dom";
 import "../../styles/sidebar.scss";
 import Dashboard from "./Dashboard";
 import Login from "./Login";
+import {GlobalContext} from '../../context/GlobalState';
 
 const drawerWidth = 240;
 
@@ -62,6 +64,8 @@ function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  const {logout}=useContext(GlobalContext);
+
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
@@ -92,6 +96,14 @@ function Sidebar(props) {
         <ListItemIcon>{darkMode ? <DarkIcon /> : <LightIcon />}</ListItemIcon>
         <ListItemText>{darkMode ? "Light Mode" : "Dark Mode"}</ListItemText>
       </ListItem>
+      <Link to="/">
+        <ListItem onClick={logout}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </Link>
     </List>
   );
   return (

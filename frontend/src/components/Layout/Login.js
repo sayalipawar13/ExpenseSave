@@ -6,8 +6,8 @@ import {GlobalContext} from '../../context/GlobalState';
 function Login(){
 return(
 
-    <div style={{display:"flex",textAlign:"center",justifyContent:"center",flexDirection:"column", marginTop:200}}>
-         <img src="images/logo.png" style={{width:"80px",margin:"auto"}} alt="Expense Tracker" />
+    <div style={{display:"flex",textAlign:"center",justifyContent:"center",flexDirection:"column", marginTop:150,marginRight:"10%"}}>
+         <img src="images/wallet-icon.png" style={{width:"80px",margin:"auto"}} alt="Expense Tracker" />
 <Typography variant="h4" >
     ExpenseSave</Typography>
 <br/>

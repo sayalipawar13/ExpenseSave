@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(session({
+    cookie:{httpOnly:true},
     secret:process.env.secret,
     resave:true,
     saveUninitialized:true,

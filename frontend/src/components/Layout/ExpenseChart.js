@@ -6,7 +6,7 @@ import { GlobalContext } from "../../context/GlobalState";
 import "../../styles/expenseChart.scss";
 
 export default function ExpenseChart(props) {
-  const { expenses,getExpenses } = useContext(GlobalContext);
+  const { expenses,getExpenses,user } = useContext(GlobalContext);
 
   const total = props.income - props.expense;
 
@@ -94,7 +94,11 @@ export default function ExpenseChart(props) {
     },
   };
   useEffect(()=>{
-    getExpenses();
+    if(user.loggedIn)
+    {
+      getExpenses();
+
+    }
   },[]);
 
   return (

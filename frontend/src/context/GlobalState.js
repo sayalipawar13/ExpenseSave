@@ -5,7 +5,7 @@ import combineReducers from "react-combine-reducers";
 
 const initialStateExpense = {
   expenses: [],
-  loading:true,
+  loading:false,
   error:null,
   user:{
     loggedIn:false,
@@ -26,6 +26,7 @@ export const GlobalProvider = ({ children }) => {
 
   //Actions
   async function getExpenses(){
+    console.log("gettttttttttttttttt");
     try {
       const res = await axios.get("/api/expenses/expenseList");
       dispatch({
@@ -95,6 +96,17 @@ try {
   console.log(error);
 }
   }
+
+  async function logout(){
+    try {
+      const res=await axios.post('auth/logout');
+      dispatch({
+        type:"LOGOUT_USER"
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <GlobalContext.Provider
       value={{
@@ -102,7 +114,7 @@ try {
         loading:state.loading,
         error:state.error,
         user:state.user,
-        state,
+        logout,
         getExpenses,
         addExpenses,
         deleteExpenses,

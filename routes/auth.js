@@ -25,9 +25,16 @@ passport.authenticate('google',{failureRedirect:"/login"}),(req,res)=>{
 //     res.json(req.user);
 // })
 
-router.get('/logout',(req,res)=>{
-    req.logOut();
-    res.redirect("http://localhost:3000/");
+router.post('/logout',(req,res)=>{
+    if(req.user){
+        req.logOut();
+         return res.status(200).send("Successfully logout")
+        // res.redirect("http://localhost:3000/");
+    }
+    else{
+        return res.status(500).send("Server error")
+    }
+   
     
 })
 module.exports=router;

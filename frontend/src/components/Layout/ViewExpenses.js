@@ -5,7 +5,7 @@ import moment from "moment";
 import { GlobalContext } from "../../context/GlobalState";
 
 function ViewExpenses() {
-  let { expenses,deleteExpenses,getExpenses} = useContext(GlobalContext);
+  let { expenses,deleteExpenses,getExpenses,user} = useContext(GlobalContext);
   expenses = expenses.map(expense => {
     expense = {...expense}
     expense.date = moment(expense.date).format('DD-MM-YYYY');
@@ -13,10 +13,13 @@ function ViewExpenses() {
 });
 // console.log(expenses);
 
-  useEffect(()=>{
+useEffect(()=>{
+  if(user.loggedIn)
+  {
     getExpenses();
-  },[]);
 
+  }
+},[]);
   const columns = [
     { title: "Type", field: "type" },
     { title: "Amount", field: "amount" },

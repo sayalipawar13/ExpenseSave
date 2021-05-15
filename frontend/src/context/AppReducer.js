@@ -3,7 +3,6 @@ export const ExpenseReducer = (state, action) => {
     case "GET_USER":
       return{
         ...state,
-        expenses:[...state.expenses],
         loading:false,
         error:null,
         user:{
@@ -11,6 +10,15 @@ export const ExpenseReducer = (state, action) => {
           username:action.payload
 
         }
+      };
+    case "LOGOUT_USER":
+      return{
+        ...state,    
+  user:{
+    loggedIn:false,
+    username:''
+  },
+  expenses:[]
       }
     case "GET_EXPENSES":
       return {
