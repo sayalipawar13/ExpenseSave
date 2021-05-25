@@ -36,6 +36,12 @@ Users can then visualize the data using pie charts in the front end.
 ```
 npm install
 ```
+##### 3.1) Installing dependencies for frontend:
+run in the ./frontend directory
+```
+npm install
+```
+
 ##### Running both server and frontend concurrently:
 ```
 npm run dev
