@@ -52,7 +52,7 @@ function CreateExpense() {
     categoryError: "",
   };
   // const [open, setOpen] = useState(false);
-  const { addExpenses } = useContext(GlobalContext);
+  const { addExpenses,user} = useContext(GlobalContext);
 
   const [expense, setExpense] = useState(initialState);
 
@@ -122,7 +122,7 @@ function CreateExpense() {
     if (isValid) {
       expenditure.amount = expenditure.amount * 1;
 
-      addExpenses(expenditure);
+      addExpenses(expenditure,user.username);
 
       //resetting the values
       setExpense(initialState);

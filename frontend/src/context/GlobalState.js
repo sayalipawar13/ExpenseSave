@@ -41,14 +41,14 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
-  async function addExpenses(expense) {
+  async function addExpenses(expense,username) {
     const config={
       headers:{
         'Content-Type': 'application/json'
       }
     }
     try {     
-      const res = await axios.post("/api/expenses/createExpense",expense,config);
+      const res = await axios.post("/api/expenses/createExpense",{expense,username},config);
 
     dispatch({
       type: "ADD_EXPENSE",

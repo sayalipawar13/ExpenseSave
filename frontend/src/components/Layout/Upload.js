@@ -49,7 +49,7 @@ function Upload() {
     },
   };
   // const [open, setOpen] = useState(false);
-  const { addExpenses } = useContext(GlobalContext);
+  const { addExpenses,user } = useContext(GlobalContext);
 
   const [expense, setExpense] = useState(initialState);
 
@@ -135,7 +135,7 @@ function Upload() {
 
         const { open, expenditure } = expense;
 
-        addExpenses(expenditure);
+        addExpenses(expenditure,user.username);
 
         //   resetting the values
         setExpense(initialState);

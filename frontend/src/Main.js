@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     [theme.breakpoints.up('sm')]: {
-      marginLeft:"260px",
+      marginLeft:"240px",
     },
   },
   // necessary for content to be below app bar

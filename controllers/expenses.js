@@ -1,4 +1,5 @@
 const expense = require("../models/expense");
+const user=require("../models/user");
 
 exports.getExpenses = async (req, res, next) => {
   try {
@@ -17,8 +18,22 @@ exports.getExpenses = async (req, res, next) => {
 
 exports.createExpense = async (req, res, next) => {
   try {
-    const item = new expense(req.body);
-
+    const n={
+      type:req.body.expense.type,
+      amount:req.body.expense.amount,
+      date:req.body.expense.date,
+      category:req.body.expense.category,
+      desc:req.body.expense.desc,
+      owner:req.body.username
+    }
+    const item = new expense(
+      n
+    );
+    const x=req.body.username;
+    
+    user.findOneAndUpdate({username:x},
+      { $push: { expenses:  n} }
+      )
     const result = await item.save();
 
     return res.status(200).json({
